@@ -1,0 +1,43 @@
+---
+
+- name: Install yum-cron
+  become: true
+  package:
+    name: "yum-cron"
+    state: "{{ yum_cron_package_state }}"
+  when: "yum_cron_install"
+  tags: ["yum_cron", "yum_cron-install"]
+
+
+- name: Configure yum-cron.conf
+  become: true
+  template:
+    src: "yum-cron.conf.j2"
+    dest: "/etc/yum/yum-cron.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  when: "yum_cron_configure"
+  tags: ["yum_cron", "yum_cron-configure"]
+
+
+- name: Configure yum-cron-hourly.conf
+  become: true
+  template:
+    src: "yum-cron.conf.j2"
+    dest: "/etc/yum/yum-cron-hourly.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  when: "yum_cron_configure"
+  tags: ["yum_cron", "yum_cron-configure"]
+
+
+- name: Enable yum-cron service
+  become: true
+  service:
+    name: "yum-cron"
+    state: "{{ yum_cron_service_state }}"
+    enabled: "{{ yum_cron_service_enabled }}"
+  when: "yum_cron_service"
+  tags: ["yum_cron", "yum_cron-service"]
