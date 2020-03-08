@@ -12,15 +12,16 @@
 # minimal-security-severity:Critical =  --sec-severity=Critical update-minimal
 update_cmd = {{ yum_cron_update_cmd }}
 
-# Whether a message should be emitted when updates are available,
-# were downloaded, or applied.
+# Whether a message should be emitted when updates are available.
 update_messages = {{ yum_cron_update_messages }}
 
-# Whether updates should be downloaded when they are available.
+# Whether updates should be downloaded when they are available. Note
+# that updates_messages must also be yes for updates to be downloaded.
 download_updates = {{ yum_cron_download_updates }}
 
 # Whether updates should be applied when they are available.  Note
-# that download_updates must also be yes for the update to be applied.
+# that both update_messages and download_updates must also be yes for
+# the update to be applied
 apply_updates = {{ yum_cron_apply_updates }}
 
 # Maximum amout of time to randomly sleep, in minutes.  The program
@@ -28,7 +29,6 @@ apply_updates = {{ yum_cron_apply_updates }}
 # minutes before running.  This is useful for e.g. staggering the
 # times that multiple systems will access update servers.  If
 # random_sleep is 0 or negative, the program will run immediately.
-# 6*60 = 360
 random_sleep = {{ yum_cron_random_sleep }}
 
 
@@ -46,11 +46,12 @@ emit_via = {{ yum_cron_emit_via }}
 
 # The width, in characters, that messages that are emitted should be
 # formatted to.
-ouput_width = {{ yum_cron_ouput_width }}
+output_width = {{ yum_cron_output_width }}
 
 
 [email]
 # The address to send email messages from.
+# NOTE: 'localhost' will be replaced with the value of system_name.
 email_from = {{ yum_cron_email_from }}
 
 # List of addresses to send messages to.
@@ -61,7 +62,6 @@ email_host = {{ yum_cron_email_host }}
 
 
 [groups]
-# NOTE: This only works when group_command != objects, which is now the default
 # List of groups to update
 group_list = {{ yum_cron_group_list }}
 
