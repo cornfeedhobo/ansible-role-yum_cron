@@ -1,18 +1,15 @@
 ---
 galaxy_info:
-  role_name: yum_cron
-  author: cornfeedhobo
-  description: Install and configure yum-cron
-  license: MIT
-  min_ansible_version: 2.1
+  role_name: "yum_cron"
+  author: "cornfeedhobo"
+  description: "Install and configure yum-cron"
+  license: "MIT"
+  galaxy_tags: ["yum", "cron", "security"]
+  min_ansible_version: "2.1"
   platforms:
-    - name: EL
+    -
+      name: EL
       versions:
-        - 7
-        - 6
-  galaxy_tags:
-    - yum
-    - cron
-    - security
+        - "7"
 
 dependencies: []

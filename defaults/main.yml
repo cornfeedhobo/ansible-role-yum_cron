@@ -1,48 +1,121 @@
 ---
 
 yum_cron_install: false
-yum_cron_configure: false
-yum_cron_service: false
-
 yum_cron_package_state: "present"
+yum_cron_package_name: "yum-cron"
+
+yum_cron_service: false
+yum_cron_service_name: "yum-cron"
 yum_cron_service_state: "started"
 yum_cron_service_enabled: true
 
+yum_cron_configure: false
+yum_cron_config_path: "/etc/yum/yum-cron.conf"
+yum_cron_config_owner: "root"
+yum_cron_config_group: "root"
+yum_cron_config_mode: "0644"
 
 # settings intentionally match the rpm's defaults
-yum_cron_update_cmd: "security"
+
+# @var yum_cron_update_cmd:description: >
+# What kind of update to use:
+# - default                            = yum upgrade
+# - security                           = yum --security upgrade
+# - security-severity:Critical         = yum --sec-severity=Critical upgrade
+# - minimal                            = yum --bugfix update-minimal
+# - minimal-security                   = yum --security update-minimal
+# - minimal-security-severity:Critical =  --sec-severity=Critical update-minimal
+# @end
+yum_cron_update_cmd: "default"
+
+# @var yum_cron_update_messages:description: >
+# Whether a message should be emitted when updates are available,
+# were downloaded, or applied.
+# @end
 yum_cron_update_messages: "yes"
+
+# @var yum_cron_download_updates:description: >
+# Whether updates should be downloaded when they are available.
+# @end
 yum_cron_download_updates: "yes"
+
+# @var yum_cron_apply_updates:description: >
+# Whether updates should be applied when they are available.  Note
+# that download_updates must also be yes for the update to be applied.
+# @end
 yum_cron_apply_updates: "no"
+
+# @var yum_cron_random_sleep:description: >
+# Maximum amout of time to randomly sleep, in minutes.  The program
+# will sleep for a random amount of time between 0 and random_sleep
+# minutes before running.  This is useful for e.g. staggering the
+# times that multiple systems will access update servers.  If
+# random_sleep is 0 or negative, the program will run immediately.
+# 6*60 = 360
+# @end
 yum_cron_random_sleep: "360"
+
+# @var yum_cron_system_name:description: >
+# Name to use for this system in messages that are emitted.  If
+# system_name is None, the hostname will be used.
+# @end
 yum_cron_system_name: "None"
+
+# @var yum_cron_emit_via:description: >
+# How to send messages.  Valid options are stdio and email.  If
+# emit_via includes stdio, messages will be sent to stdout; this is useful
+# to have cron send the messages.  If emit_via includes email, this
+# program will send email itself according to the configured options.
+# If emit_via is None or left blank, no messages will be sent.
+# @end
 yum_cron_emit_via: "stdio"
-yum_cron_ouput_width: "80"
+
+# @var yum_cron_output_width:description: >
+# The width, in characters, that messages that are emitted should be
+# formatted to.
+# @end
+yum_cron_output_width: "80"
+
+# @var yum_cron_email_from:description: >
+# The address to send email messages from.
+# NOTE: 'localhost' will be replaced with the value of system_name.
+# @end
 yum_cron_email_from: "root@localhost"
+
+# @var yum_cron_email_to:description: >
+# List of addresses to send messages to.
+# @end
 yum_cron_email_to: "root"
+
+# @var yum_cron_email_host:description: >
+# Name of the host to connect to to send email messages.
+# @end
 yum_cron_email_host: "localhost"
+
+# @var yum_cron_group_list:description: >
+# NOTE: This only works when group_command != objects, which is now the default
+# List of groups to update
+# @end
 yum_cron_group_list: "None"
+
+# @var yum_cron_group_package_types:description: >
+# The types of group packages to install
+# @end
 yum_cron_group_package_types: "mandatory, default"
+
+# @var yum_cron_debuglevel:description: >
+# Use this to filter Yum core messages
+# - -4: critical
+# - -3: critical+errors
+# - -2: critical+errors+warnings (default)
+# @end
 yum_cron_debuglevel: "-2"
-yum_cron_skip_broken: "True"
+
+yum_cron_skip_broken: "False"
+
 yum_cron_mdpolicy: "group:main"
+
+# @var yum_cron_assumeyes:description: >
+# Uncomment to auto-import new gpg keys (dangerous)
+# @end
 yum_cron_assumeyes: "False"
-
-
-yum_cron_hourly_update_cmd: "security"
-yum_cron_hourly_update_messages: "no"
-yum_cron_hourly_download_updates: "no"
-yum_cron_hourly_apply_updates: "no"
-yum_cron_hourly_random_sleep: "15"
-yum_cron_hourly_system_name: "None"
-yum_cron_hourly_emit_via: "stdio"
-yum_cron_hourly_ouput_width: "80"
-yum_cron_hourly_email_from: "{{ yum_cron_email_from }}"
-yum_cron_hourly_email_to: "{{ yum_cron_email_to }}"
-yum_cron_hourly_email_host: "{{ yum_cron_email_host }}"
-yum_cron_hourly_group_list: "None"
-yum_cron_hourly_group_package_types: "mandatory, default"
-yum_cron_hourly_debuglevel: "-2"
-yum_cron_hourly_skip_broken: "True"
-yum_cron_hourly_mdpolicy: "group:main"
-yum_cron_hourly_assumeyes: "False"
