@@ -5,7 +5,7 @@
   tasks:
     -
       name: "Include cornfeedhobo.yum_cron"
-      ansible.builtin.include_role:
+      include_role:
         name: "cornfeedhobo.yum_cron"
       vars:
         yum_cron_install: true

@@ -15,6 +15,11 @@ ENV {{ var }} {{ value }}
 {% endif %}
 
 RUN set -ex && \
+	sed -i \
+		-e 's@^mirrorlist@#mirrorlist@' \
+		-e 's@#baseurl@baseurl@' \
+		-e 's@mirror\.@vault.@' \
+		/etc/yum.repos.d/CentOS-*.repo && \
 	yum makecache && \
 	yum --assumeyes install \
 		python3 \

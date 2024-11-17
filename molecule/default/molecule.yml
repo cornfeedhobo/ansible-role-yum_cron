@@ -11,13 +11,14 @@ driver:
 platforms:
   -
     name: "centos-7"
-    image: "quay.io/centos/centos:centos7"
+    image: "docker.io/library/centos:centos7"
     pre_build_image: false
 provisioner:
   name: "ansible"
   config_options:
     defaults:
-      interpreter_python: "/usr/bin/python3"
+      interpreter_python: "auto_silent"
       remote_tmp: "/tmp"
+  log: true
 verifier:
   name: "ansible"
